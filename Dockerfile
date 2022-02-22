@@ -54,6 +54,7 @@ RUN sed -i 's/--enable-newlib-long-time_t//g' samples/xtensa-esp32-elf/crosstool
   echo 'CT_TOOLCHAIN_PKGVERSION="crosstool-NG esp-2021r2"' >> samples/xtensa-esp32-elf/crosstool.config && \
   ./ct-ng xtensa-esp32-elf && \
   sed -i 's/CT_SHOW_CT_VERSION=.*/unset CT_SHOW_CT_VERSION/g' .config && \
+  echo 'unset CT_LOG_PROGRESS_BAR' >> .config && \
   ./ct-ng build
 
 
