@@ -46,12 +46,15 @@ USER crosstool
 RUN git clone https://github.com/espressif/crosstool-NG.git . && \
   git checkout esp-2021r2-patch3 && \
   git submodule update --init && \
-  sed -i 's/--enable-newlib-long-time_t//g' samples/xtensa-esp32-elf/crosstool.config && \
   ./bootstrap && \
   ./configure --enable-local && \
   make
 
-RUN ./ct-ng xtensa-esp32-elf && ./ct-ng build
+RUN sed -i 's/--enable-newlib-long-time_t//g' samples/xtensa-esp32-elf/crosstool.config && \
+  echo 'CT_TOOLCHAIN_PKGVERSION="crosstool-NG esp-2021r2"' >> samples/xtensa-esp32-elf/crosstool.config && \
+  ./ct-ng xtensa-esp32-elf && \
+  sed -i 's/CT_SHOW_CT_VERSION=.*/unset CT_SHOW_CT_VERSION/g' .config && \
+  ./ct-ng build
 
 
 FROM scratch
